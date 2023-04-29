@@ -1,0 +1,48 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id 'org.springframework.boot' version '3.0.4'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.22'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.7.22'
+}
+
+ext {
+    elasticsearch_version = '7.10.2'
+    lombok_version = '1.18.24'
+}
+
+group = 'com.yoveuio'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:' + elasticsearch_version
+    implementation 'org.elasticsearch.client:elasticsearch-rest-client:' + elasticsearch_version
+    implementation 'org.elasticsearch.client:elasticsearch-rest-client-sniffer:' + elasticsearch_version
+    implementation 'org.elasticsearch:elasticsearch:' + elasticsearch_version
+    implementation 'io.vavr:vavr:0.9.1'
+    compileOnly 'org.projectlombok:lombok:' + lombok_version
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.withType(KotlinCompile) {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '17'
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
