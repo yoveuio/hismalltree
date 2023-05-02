@@ -1,0 +1,37 @@
+plugins {
+    id 'java-platform'
+}
+
+javaPlatform {
+    allowDependencies()
+}
+
+dependencies {
+
+    api(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4"))
+    api(platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.4.0"))
+
+    constraints {
+        // spring
+        api "org.springframework.boot:spring-boot-starter:${springbootVersion}"
+        api "org.springframework.boot:spring-boot-starter-web:${springbootVersion}"
+        api "org.springframework.boot:spring-boot-starter-test:${springbootVersion}"
+
+        // elasticsearch
+        api "org.elasticsearch.client:elasticsearch-rest-high-level-client:${elasticsearchVersion}"
+        api "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearchVersion}"
+        api "org.elasticsearch.client:elasticsearch-rest-client-sniffer:${elasticsearchVersion}"
+        api "org.elasticsearch:elasticsearch:${elasticsearchVersion}"
+
+        // flink
+        api "org.apache.flink:flink-clients:${flinkVersion}"
+        api "org.apache.flink:flink-java:${flinkVersion}"
+        api "org.apache.flink:flink-streaming-java:${flinkVersion}"
+
+        // utils
+        api "com.google.guava:guava:31.1-jre"
+        api "com.fasterxml.jackson.core:jackson-databind:2.14.2"
+        api "io.vavr:vavr:0.9.1"
+        api "org.projectlombok:lombok:${lombokVersion}"
+    }
+}
