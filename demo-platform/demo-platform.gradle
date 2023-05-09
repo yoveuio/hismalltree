@@ -12,6 +12,12 @@ dependencies {
     api(platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.4.0"))
 
     constraints {
+        // scala
+        api "org.scala-lang:scala-library:${scalaVersion}"
+        api "org.scala-lang:scala-compiler:${scalaVersion}"
+        api "org.scala-lang:scala-reflect:${scalaVersion}"
+        api "org.scalatest:scalatest_2.12:3.0.0"
+
         // spring
         api "org.springframework.boot:spring-boot-starter:${springbootVersion}"
         api "org.springframework.boot:spring-boot-starter-web:${springbootVersion}"
