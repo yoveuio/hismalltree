@@ -14,6 +14,7 @@ ext {
     scalaVersion = '2.12.17'
     kotlinTestVersion = '1.9.10'
     mockitoTestVersion = '5.5.0'
+    slf4jVersion = '2.0.7'
 }
 
 dependencies {
@@ -50,6 +51,7 @@ dependencies {
         api "com.fasterxml.jackson.core:jackson-databind:2.14.2"
         api "io.vavr:vavr:0.9.1"
         api "org.projectlombok:lombok:${lombokVersion}"
+        api "org.slf4j:slf4j-api:${slf4jVersion}"
 
         // test
         api "org.jetbrains.kotlin:kotlin-test-junit:${kotlinTestVersion}"
