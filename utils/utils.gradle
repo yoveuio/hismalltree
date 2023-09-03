@@ -1,0 +1,11 @@
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    implementation 'com.google.guava:guava'
+    implementation 'org.apache.commons:commons-lang3'
+
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
+    testImplementation 'org.mockito:mockito-core'
+}
+

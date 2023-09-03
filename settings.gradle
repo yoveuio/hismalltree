@@ -2,6 +2,7 @@ rootProject.name = 'demo'
 include 'demo-flink'
 include 'demo-spring'
 include 'demo-platform'
+include 'utils'
 
 rootProject.children.each {project ->
     project.buildFileName = "${project.name}.gradle"
