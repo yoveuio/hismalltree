@@ -7,14 +7,22 @@ javaPlatform {
 }
 
 ext {
-    elasticsearchVersion = '7.10.2'
-    lombokVersion = '1.18.24'
-    flinkVersion = '1.17.0'
-    springbootVersion = '3.0.6'
+    // lib version
     scalaVersion = '2.12.17'
-    kotlinTestVersion = '1.9.10'
-    mockitoTestVersion = '5.5.0'
+    springbootVersion = '3.0.6'
+    elasticsearchVersion = '7.10.2'
+    flinkVersion = '1.17.0'
+
+    // utils version
+    guavaVersion = '31.1-jre'
+    apacheCommonVersion = '3.12.0'
+    jacksonVersion = '2.14.2'
     slf4jVersion = '2.0.7'
+    lombokVersion = '1.18.24'
+    vavrVersion = '0.9.1'
+
+    mockitoTestVersion = '5.5.0'
+    kotlinTestVersion = '1.9.10'
 }
 
 dependencies {
@@ -46,10 +54,10 @@ dependencies {
         api "org.apache.flink:flink-streaming-java:${flinkVersion}"
 
         // utils
-        api "com.google.guava:guava:31.1-jre"
-        api "org.apache.commons:commons-lang3:3.12.0"
-        api "com.fasterxml.jackson.core:jackson-databind:2.14.2"
-        api "io.vavr:vavr:0.9.1"
+        api "com.google.guava:guava:${guavaVersion}"
+        api "org.apache.commons:commons-lang3:${apacheCommonVersion}"
+        api "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+        api "io.vavr:vavr:${vavrVersion}"
         api "org.projectlombok:lombok:${lombokVersion}"
         api "org.slf4j:slf4j-api:${slf4jVersion}"
 
