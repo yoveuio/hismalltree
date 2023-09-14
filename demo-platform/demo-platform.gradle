@@ -12,6 +12,7 @@ ext {
     springbootVersion = '3.0.6'
     elasticsearchVersion = '7.10.2'
     flinkVersion = '1.17.0'
+    postgresqlJdbcVersion = "42.6.0"
 
     // utils version
     guavaVersion = '31.1-jre'
@@ -52,6 +53,9 @@ dependencies {
         api "org.apache.flink:flink-clients:${flinkVersion}"
         api "org.apache.flink:flink-java:${flinkVersion}"
         api "org.apache.flink:flink-streaming-java:${flinkVersion}"
+
+        // jdbc
+        api "org.postgresql:postgresql:${postgresqlJdbcVersion}"
 
         // utils
         api "com.google.guava:guava:${guavaVersion}"

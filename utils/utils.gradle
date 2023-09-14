@@ -2,6 +2,8 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 
+    implementation 'org.postgresql:postgresql'
+
     implementation 'com.google.guava:guava'
     implementation 'org.apache.commons:commons-lang3'
     implementation 'org.slf4j:slf4j-api'
