@@ -4,11 +4,9 @@ import com.google.common.collect.Lists
 import com.muxu.utils.datasource.JdbcConnection
 import com.muxu.utils.entity.CatalogTreeDTO
 import com.muxu.utils.entity.CatalogType
-import com.muxu.utils.entity.DataSource
-import java.sql.Connection
-import java.sql.DatabaseMetaData
-import java.sql.SQLException
+import java.sql.*
 import java.util.*
+import java.util.stream.Collectors
 
 class PgConnection(
     override val driverName: String = "org.postgresql.Driver"
@@ -23,10 +21,7 @@ class PgConnection(
         )
     }
 
-    fun fetchCatalogs(datasource: DataSource): List<CatalogTreeDTO> {
-        val username = "dts_test_account"
-        val password = "4L9Fm#3dnV"
-        val url = buildUrl("postgres-d60f9dbab229.volces.com", "5432", null)
+    fun fetchCatalogs(username: String, password: String, url: String): List<CatalogTreeDTO> {
         var conn: Connection? = null
         return try {
             // 打开链接
@@ -89,14 +84,70 @@ class PgConnection(
         return tableList
     }
 
+    fun execute(
+        username: String,
+        password: String,
+        dbUrl: String,
+        query: String
+    ): List<Map<String, String>> {
+        var conn: Connection? = null
+        var statement: Statement? = null
+        val result: MutableList<Map<String, String>> = ArrayList()
+        return try {
+            conn = getConnection(username, password, dbUrl)
+            statement = conn.createStatement()
+            val resultSet = statement.executeQuery(query)
+            val rsmd = resultSet.metaData
+            val columnCount = rsmd.columnCount
+            while (resultSet.next()) {
+                val map: MutableMap<String, String> = HashMap()
+                // 从1开始计数
+                for (i in 1..columnCount) {
+                    map[rsmd.getColumnName(i)] = resultSet.getString(i)
+                }
+                result.add(map)
+            }
+            result
+        } catch (e: Exception) {
+            throw e
+        } finally {
+            // 关闭资源
+            statement?.close()
+            conn?.close()
+        }
+    }
+
     companion object {
         const val PG_URL_FORMAT =
             "jdbc:postgresql://%s:%s/%s?rewriteBatchedStatements=true&autoReconnect=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull"
 
         @JvmStatic
         fun main(args: Array<String>) {
-            var fetchCatalogs = PgConnection().fetchCatalogs(DataSource())
-            println(fetchCatalogs)
+            var pgConnection = PgConnection()
+            val username = "dts_test_account"
+            val password = "4L9Fm#3dnV"
+            val url = pgConnection.buildUrl("postgres-d60f9dbab229.volces.com", "5432", "dts_test")
+            val collect = pgConnection.execute(
+                username, password, url, """
+                    select datname       as name,
+                           datistemplate as is_template,
+                           datallowconn  as allow_connections
+                    from pg_database N
+                    where datistemplate = false and datallowconn = true
+            """.trimIndent()
+            ).stream()
+                .map { result -> result["name"] }
+                .map { databaseName ->
+                    pgConnection.fetchCatalogs(
+                        username,
+                        password,
+                        pgConnection.buildUrl("postgres-d60f9dbab229.volces.com", "5432", databaseName)
+                    )
+                }
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList())
+
+            println(collect)
         }
     }
 }
