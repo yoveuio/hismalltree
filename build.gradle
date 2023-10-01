@@ -19,21 +19,21 @@ ext {
 
 allprojects {
     repositories {
+        mavenLocal()
+        mavenCentral()
         maven {
             url "https://maven.aliyun.com/nexus/content/groups/public"
         }
-        mavenCentral()
-        mavenLocal()
     }
 
-    group = 'com.yoveuio'
+    group = 'com.muxu'
     version = '0.0.1-SNAPSHOT'
 
 }
 
 configure([rootProject] + javaProjects) {
     apply plugin: 'io.spring.dependency-management'
-    if (project.name in ['demo-spring', 'demo-flink'] || project.name.startsWith('muxu')) {
+    if (project.name in ['demo-spring', 'demo-flink', 'demo-huawei'] || project.name.startsWith('muxu')) {
         apply plugin: "kotlin"
         apply plugin: 'org.jetbrains.kotlin.jvm'
         apply plugin: 'org.jetbrains.kotlin.plugin.spring'

@@ -3,7 +3,9 @@ include 'demo-flink'
 include 'demo-platform'
 include 'demo-spring'
 include 'muxu-core'
+include 'demo-huawei'
 
 rootProject.children.each {project ->
     project.buildFileName = "${project.name}.gradle"
 }
+
