@@ -8,8 +8,10 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -17,13 +19,17 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -34,10 +40,16 @@ import java.util.stream.Collectors;
  * @author fangpeiyu
  * @see SolutionTaskConfigPointer
  */
+@SuppressWarnings("unused")
 public final class SolutionTaskConfig {
 
     private static final Map<Class<?>, Function<Object, JsonNode>> BUILD_NODE_FUNCTION_MAP;
     private static final List<Pair<Predicate<JsonNode>, Function<JsonNode, Object>>> GET_OBJECT_FUNCTION_LIST;
+
+    public static final TypeReference<List<String>> LIST_STRING_TYPE = new TypeReference<>() {
+    };
+    public static final TypeReference<List<Object>> LIST_OBJECT_TYPE = new TypeReference<>() {
+    };
 
     static {
         ImmutableMap.Builder<Class<?>, Function<Object, JsonNode>> builderNodeFunctionBuilder = ImmutableMap.builder();
@@ -86,6 +98,14 @@ public final class SolutionTaskConfig {
         return new SolutionTaskConfig(jsonNode);
     }
 
+    public static SolutionTaskConfig fromObject(Object object) {
+        ObjectNode jsonNode = buildNode(object).withObject("");
+        if (jsonNode == null) {
+            throw new IllegalArgumentException("The object to convert  is not a object, json: " + object);
+        }
+        return new SolutionTaskConfig(jsonNode);
+    }
+
     public static SolutionTaskConfig newDefault() {
         return new SolutionTaskConfig(JsonNodeFactory.instance.objectNode());
     }
@@ -103,12 +123,11 @@ public final class SolutionTaskConfig {
 
     public Optional<Number> getNumberOption(SolutionTaskConfigPointer ptr) {
         Object o = get0(ptr);
-        if (o instanceof Number) {
-            return Optional.of((Number) o);
-        } else if (o instanceof String) {
+        if (o instanceof Number number) {
+            return Optional.of(number);
+        } else if (o instanceof String string) {
             try {
-                final String text = (String) o;
-                return Optional.of(NumberFormat.getInstance().parse(text));
+                return Optional.of(NumberFormat.getInstance().parse(string));
             } catch (final ParseException e) {
                 // failure means null is returned
             }
@@ -138,49 +157,48 @@ public final class SolutionTaskConfig {
 
     public Optional<Boolean> getBooleanOption(SolutionTaskConfigPointer ptr) {
         Object o = get0(ptr);
-        if (o instanceof Boolean) {
-            return Optional.of((Boolean) o);
+        if (o instanceof Boolean bool) {
+            return Optional.of(bool);
         }
-        if (o instanceof String) {
-            return Optional.of(Boolean.valueOf((String) o));
+        if (o instanceof String string) {
+            return Optional.of(Boolean.valueOf(string));
         }
-        if (o instanceof Number) {
-            final Number n = (Number) o;
-            return Optional.of(n.intValue() != 0 ? Boolean.TRUE : Boolean.FALSE);
+        if (o instanceof Number number) {
+            return Optional.of(number.intValue() != 0 ? Boolean.TRUE : Boolean.FALSE);
         }
         return Optional.empty();
     }
 
     public Optional<BigInteger> getBigIntegerOption(SolutionTaskConfigPointer ptr) {
         Object o = get0(ptr);
-        if (o instanceof BigInteger) {
-            return Optional.of((BigInteger) o);
+        if (o instanceof BigInteger bigInteger) {
+            return Optional.of(bigInteger);
         }
-        if (o instanceof String) {
-            return Optional.of(new BigInteger((String) o));
+        if (o instanceof String string) {
+            return Optional.of(new BigInteger(string));
         }
-        if (o instanceof BigDecimal) {
-            return Optional.of(((BigDecimal) o).toBigInteger());
+        if (o instanceof BigDecimal bigDecimal) {
+            return Optional.of(bigDecimal.toBigInteger());
         }
-        if (o instanceof Number) {
-            return Optional.of(BigInteger.valueOf(((Number) o).longValue()));
+        if (o instanceof Number number) {
+            return Optional.of(BigInteger.valueOf(number.longValue()));
         }
         return Optional.empty();
     }
 
     public Optional<BigDecimal> getBigDecimalOption(SolutionTaskConfigPointer ptr) {
         Object o = get0(ptr);
-        if (o instanceof BigDecimal) {
-            return Optional.of((BigDecimal) o);
+        if (o instanceof BigDecimal bigDecimal) {
+            return Optional.of(bigDecimal);
         }
-        if (o instanceof String) {
-            return Optional.of(new BigDecimal((String) o));
+        if (o instanceof String string) {
+            return Optional.of(new BigDecimal(string));
         }
-        if (o instanceof BigInteger) {
-            return Optional.of(new BigDecimal((BigInteger) o));
+        if (o instanceof BigInteger bigInteger) {
+            return Optional.of(new BigDecimal(bigInteger));
         }
-        if (o instanceof Number) {
-            return Optional.of(BigDecimal.valueOf(((Number) o).longValue()));
+        if (o instanceof Number number) {
+            return Optional.of(BigDecimal.valueOf(number.longValue()));
         }
         return Optional.empty();
     }
@@ -190,19 +208,28 @@ public final class SolutionTaskConfig {
         if (o instanceof byte[] bytes) {
             return Optional.of(bytes);
         }
-        if (o instanceof String str) {
-            return Optional.of(str.getBytes());
+        if (o instanceof String string) {
+            return Optional.of(string.getBytes());
         }
         return Optional.empty();
     }
 
-    public <T> Optional<List<T>> getListOption(SolutionTaskConfigPointer ptr, TypeReference<List<T>> typeReference) {
-        return Optional.ofNullable(get0(ptr, typeReference));
+    public List<String> getStringList(SolutionTaskConfigPointer ptr) {
+        return getList(ptr, LIST_STRING_TYPE);
+    }
+
+    public <T> List<T> getList(SolutionTaskConfigPointer ptr, TypeReference<List<T>> typeReference) {
+        List<T> result = get0(ptr, typeReference);
+        return result == null ? Collections.emptyList() : result;
     }
 
     @SuppressWarnings("unused")
     public <T> Optional<T> getOption(SolutionTaskConfigPointer ptr, TypeReference<T> typeReference) {
         return Optional.ofNullable(get0(ptr, typeReference));
+    }
+
+    public Optional<Object> getOption(SolutionTaskConfigPointer ptr) {
+        return Optional.ofNullable(get0(ptr));
     }
 
     public void set(String key, Object value) {
@@ -220,11 +247,24 @@ public final class SolutionTaskConfig {
      * </ul>
      * 如果路径上的节点不符合预期, 则直接覆盖
      *
-     * @param ptr   config ptr
+     * @param ptr config ptr
      * @param value object对象, 作为一个新的node对象插入到node tree中
+     * @param overrideIfArray 如果路径上有array节点的处理方式: <br>
+     *         true: 使用object节点覆盖原array节点; 如 a: [{b: 1}, {c: 1}] 插入一条 a.{d: 1} => a.{d: 1}<br>
+     *         false: 插入的value对每一个array节点中的object节点都生效; 如 a: [{b: 1}, {c: 1}] 插入一条 a.{d: 1} => a: [{b: 1, d: 1}, {c: 1, d: 1}]
      */
+    public void set(SolutionTaskConfigPointer ptr, Object value, boolean overrideIfArray) {
+        set0(this.root, ptr.getJsonPointer(), value, true, overrideIfArray);
+    }
+
     public void set(SolutionTaskConfigPointer ptr, Object value) {
-        set0(ptr, value, true);
+        set(ptr, value, true);
+    }
+
+    public @Nullable Object replace(SolutionTaskConfigPointer ptr, Object value) {
+        Object oldValue = get0(ptr);
+        set0(this.root, ptr.getJsonPointer(), value, true, true);
+        return oldValue;
     }
 
     /**
@@ -237,11 +277,11 @@ public final class SolutionTaskConfig {
      *     <li>a.b({x: 1}) + a.b.(1) = a.b(1)</li>
      * </ul>
      *
-     * @param ptr   config ptr
+     * @param ptr config ptr
      * @param value object对象, 作为一个新的node对象插入到node tree中
      */
     public void add(SolutionTaskConfigPointer ptr, Object value) {
-        set0(ptr, value, false);
+        set0(this.root, ptr.getJsonPointer(), value, false, false);
     }
 
     /**
@@ -250,7 +290,7 @@ public final class SolutionTaskConfig {
     public void putIfAbsent(SolutionTaskConfigPointer ptr, Object value) {
         Object oldValue = get0(ptr);
         if (oldValue == null) {
-            set0(ptr, value, true);
+            set0(this.root, ptr.getJsonPointer(), value, true, true);
         }
     }
 
@@ -262,6 +302,36 @@ public final class SolutionTaskConfig {
      */
     public Optional<Object> remove(SolutionTaskConfigPointer ptr) {
         return remove0(ptr);
+    }
+
+    public void replacePlaceholder(SolutionTaskConfigPointer startPtr, Placeholder placeholder) {
+        JsonPointer ptr = startPtr.getJsonPointer();
+        if (ptr == null || ptr.tail() == null) {
+            return;
+        }
+        ObjectNode objectNode = this.root;
+        StringBuilder prefix = new StringBuilder();
+        while (!ptr.tail().matches()) {
+            String key = ptr.getMatchingProperty();
+            JsonNode currentNode = objectNode.get(ptr.getMatchingProperty());
+            if (currentNode == null || !currentNode.isObject()) {
+                return;
+            }
+            objectNode = (ObjectNode) currentNode;
+            prefix.append(JsonPointer.SEPARATOR).append(key);
+            ptr = ptr.tail();
+        }
+        String key = ptr.getMatchingProperty();
+        replacePlaceholder(this.root, objectNode, objectNode.get(key), key, placeholder, prefix.toString());
+    }
+
+    public void mergeObject(SolutionTaskConfigPointer ptr, Object value) {
+        ObjectNode oldNode = this.root.withObject(ptr.getJsonPointer());
+        JsonNode newNode = buildNode(value);
+        if (oldNode == null || !newNode.isObject()) {
+            return;
+        }
+        oldNode.setAll((ObjectNode) newNode);
     }
 
     public SolutionTaskConfig deepCopy() {
@@ -305,58 +375,101 @@ public final class SolutionTaskConfig {
         return getFromNode(this.root.at(configPointer.getJsonPointer()));
     }
 
-    private void set0(SolutionTaskConfigPointer configPointer, Object object, boolean override) {
-        JsonPointer ptr = configPointer.getJsonPointer();
+    private void set0(
+        ObjectNode node,
+        JsonPointer ptr,
+        Object object,
+        boolean override,
+        boolean overrideIfArray
+    ) {
         if (ptr == null || ptr.tail() == null) {
             return;
         }
         JsonPointer currentPtr = ptr;
-        ObjectNode parentNode = this.root;
-
-        // 如果路径上的节点不为object节点, 直接覆盖
         while (!currentPtr.tail().matches()) {
-            JsonNode currentNode = parentNode.get(currentPtr.getMatchingProperty());
-            if (currentNode == null || !currentNode.isObject()) {
-                currentNode = JsonNodeFactory.instance.objectNode();
-                parentNode.set(currentPtr.getMatchingProperty(), currentNode);
+            JsonNode currentNode = node.get(currentPtr.getMatchingProperty());
+            if (!overrideIfArray && currentNode != null && currentNode.isArray()) {
+                // 如果路径上的节点是array形式, 且set模式是override, 递归地尝试赋值给array所有子节点
+                JsonPointer finalCurrentPtr = currentPtr;
+                currentNode.forEach(childNode -> {
+                    if (childNode.isObject()) {
+                        set0((ObjectNode) childNode, finalCurrentPtr.tail(), object, override, false);
+                    }
+                });
+                return;
             }
-            parentNode = (ObjectNode) currentNode;
+            if (currentNode == null || !currentNode.isObject()) {
+                // 其他情况下, 如果路径上的节点不为object节点, 直接覆盖
+                currentNode = JsonNodeFactory.instance.objectNode();
+                node.set(currentPtr.getMatchingProperty(), currentNode);
+            }
+            node = (ObjectNode) currentNode;
             currentPtr = currentPtr.tail();
         }
 
-        JsonNode oldNode = parentNode.get(currentPtr.getMatchingProperty());
-        JsonNode newNode = buildNode(object);
-        if (override || oldNode == null) {
-            parentNode.set(currentPtr.getMatchingProperty(), newNode);
+        setObject(node, currentPtr.getMatchingProperty(), object, override);
+    }
+
+    private void replacePlaceholder(
+        ObjectNode contextNode,
+        ObjectNode parentNode,
+        JsonNode currentNode,
+        String currentKey,
+        Placeholder placeholder,
+        String prefix
+    ) {
+        if (currentNode == null) {
             return;
         }
-        if (oldNode.isObject() && newNode.isObject()) {
-            ObjectNode oldObjectNode = (ObjectNode) oldNode;
-            ObjectNode newObjectNode = (ObjectNode) newNode;
-            oldObjectNode.setAll(newObjectNode);
-            parentNode.set(currentPtr.getMatchingProperty(), oldNode);
-            return;
-        } else if (oldNode.isObject() || newNode.isObject()) {
-            parentNode.set(currentPtr.getMatchingProperty(), newNode);
+        if (currentNode.isArray()) {
+            JsonPointer prefixPtr = JsonPointer.compile(prefix);
+            List<JsonNode> actualNodes = new ArrayList<>();
+            Iterator<JsonNode> iterator = currentNode.elements();
+            while (iterator.hasNext()) {
+                JsonNode childNode = iterator.next();
+                if (childNode.isObject()) {
+                    ObjectNode copiedRootNode = contextNode.deepCopy();
+                    ObjectNode prefixNode = copiedRootNode.withObject(prefixPtr);
+                    prefixNode.set(currentKey, childNode);
+                    replacePlaceholder(copiedRootNode, parentNode, childNode, currentKey, placeholder, prefix);
+                } else {
+                    actualNodes.add(buildNode(placeholder.replacePlaceholder(contextNode, getFromNode(childNode))));
+                    iterator.remove();
+                }
+            }
+            ((ArrayNode) currentNode).addAll(actualNodes);
+        } else if (currentNode.isObject()) {
+            currentNode.fields().forEachRemaining(entry -> replacePlaceholder(contextNode, (ObjectNode) currentNode, entry.getValue(), entry.getKey(), placeholder, prefix + JsonPointer.SEPARATOR + currentKey));
+        } else {
+            Object actualObject = placeholder.replacePlaceholder(contextNode, getFromNode(currentNode));
+            setObject(parentNode, currentKey, actualObject, true);
+        }
+    }
+
+    public void setObject(ObjectNode parentNode, String key, Object value, boolean override) {
+        JsonNode oldNode = parentNode.get(key);
+        JsonNode newNode = buildNode(value);
+        if (override || oldNode == null) {
+            parentNode.set(key, newNode);
             return;
         }
 
         ArrayNode resultArrayNode = JsonNodeFactory.instance.arrayNode();
-        if (oldNode.isValueNode()) {
-            resultArrayNode.add(oldNode);
-        } else if (oldNode.isArray()) {
+        if (oldNode.isArray()) {
             resultArrayNode.addAll((ArrayNode) oldNode);
+        } else {
+            resultArrayNode.add(oldNode);
         }
 
-        if (newNode.isValueNode()) {
-            resultArrayNode.add(newNode);
-        } else if (newNode.isArray()) {
+        if (newNode.isArray()) {
             resultArrayNode.addAll((ArrayNode) newNode);
+        } else {
+            resultArrayNode.add(newNode);
         }
-        parentNode.set(currentPtr.getMatchingProperty(), resultArrayNode);
+        parentNode.set(key, resultArrayNode);
     }
 
-    private Object getFromNode(JsonNode node) {
+    private static Object getFromNode(JsonNode node) {
         for (Pair<Predicate<JsonNode>, Function<JsonNode, Object>> functionPair : GET_OBJECT_FUNCTION_LIST) {
             if (functionPair.getLeft().test(node)) {
                 return functionPair.getRight().apply(node);
@@ -382,13 +495,13 @@ public final class SolutionTaskConfig {
     }
 
     private static JsonNode buildNode(Object object) {
-        if (object instanceof JsonNode) {
-            return (JsonNode) object;
+        if (object instanceof JsonNode node) {
+            return node;
         }
         if (object == null) {
             return JsonNodeFactory.instance.nullNode();
         } else if (object instanceof Collection) {
-            List<JsonNode> childrenNode = new ArrayList<>((Collection<?>) object).stream().map(SolutionTaskConfig::buildNode).collect(Collectors.toList());
+            List<JsonNode> childrenNode = new ArrayList<>((Collection<?>) object).stream().map(SolutionTaskConfig::buildNode).toList();
             return new ArrayNode(JsonNodeFactory.instance, childrenNode);
         } else if (object instanceof Map) {
             @SuppressWarnings("unchecked")
@@ -405,5 +518,65 @@ public final class SolutionTaskConfig {
             }
             return JsonUtils.fromJson(JsonUtils.toJson(object));
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SolutionTaskConfig that)) return false;
+        return Objects.equals(root, that.root);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(root);
+    }
+
+    public static class Placeholder {
+
+        private final Pattern pattern;
+
+        private final SolutionTaskConfigPointer prefix;
+
+        public Placeholder(Pattern pattern, SolutionTaskConfigPointer prefix) {
+            this.pattern = pattern;
+            this.prefix = prefix;
+        }
+
+        public static Placeholder of(Pattern pattern, SolutionTaskConfigPointer prefix) {
+            return new Placeholder(pattern, prefix);
+        }
+
+        private Object replacePlaceholder(ObjectNode node, Object value) {
+            Object result = value;
+            if (value instanceof String str) {
+                result = replaceDatasailVariables(node, str);
+            }
+            if (value instanceof List) {
+                result = ((List<?>) value).stream()
+                    .map(item -> {
+                        Object replacedValue = item;
+                        if (item instanceof String str) {
+                            replacedValue = replaceDatasailVariables(node, str);
+                        }
+                        return replacedValue;
+                    }).toList();
+            }
+            return result;
+        }
+
+        public String replaceDatasailVariables(ObjectNode node, String templateString) {
+            Matcher matcher = this.pattern.matcher(templateString);
+            StringBuilder builder = new StringBuilder();
+            while (matcher.find()) {
+                String key = matcher.group(1);
+                String value = Optional.ofNullable(node.at(prefix.append(key).getJsonPointer())).map(SolutionTaskConfig::getFromNode).map(String::valueOf).orElse("");
+                matcher.appendReplacement(builder, value);
+            }
+            matcher.appendTail(builder);
+            String result = builder.toString();
+            return StringUtils.isEmpty(result) ? templateString : result;
+        }
+
     }
 }
