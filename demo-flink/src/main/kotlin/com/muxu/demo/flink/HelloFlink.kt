@@ -51,6 +51,7 @@ object HelloFlink {
                     }
 
                     override fun onPeriodicEmit(output: WatermarkOutput?) {
+                        // not needed
                     }
                 }
             }
