@@ -14,11 +14,16 @@ ext {
     flinkVersion = '1.17.0'
     postgresqlJdbcVersion = "42.6.0"
     huaweiDisJavaSdk = "1.3.16"
+    typesafeVersion = "1.3.3"
+    snakeyamlVersion = "1.26"
+    log4jVersion = "2.20.0"
+    slf4jVersion = "2.0.9"
+    jacksonDatatypeVersion = "2.15.2"
 
     // utils version
     guavaVersion = '31.1-jre'
     apacheCommonVersion = '3.12.0'
-    jacksonVersion = '2.14.2'
+    jacksonVersion = '2.14.3'
     slf4jVersion = '2.0.7'
     lombokVersion = '1.18.24'
     vavrVersion = '0.9.1'
@@ -31,43 +36,51 @@ dependencies {
 
     api(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4"))
     api(platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:1.4.0"))
-
     constraints {
         // scala
         api "org.scala-lang:scala-library:${scalaVersion}"
         api "org.scala-lang:scala-compiler:${scalaVersion}"
         api "org.scala-lang:scala-reflect:${scalaVersion}"
         api "org.scalatest:scalatest_2.12:3.0.0"
-
         // spring
         api "org.springframework.boot:spring-boot-starter:${springbootVersion}"
         api "org.springframework.boot:spring-boot-starter-web:${springbootVersion}"
         api "org.springframework.boot:spring-boot-starter-test:${springbootVersion}"
-
+        // postgresql
+        api "org.postgresql:postgresql:${postgresqlJdbcVersion}"
         // elasticsearch
         api "org.elasticsearch.client:elasticsearch-rest-high-level-client:${elasticsearchVersion}"
         api "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearchVersion}"
         api "org.elasticsearch.client:elasticsearch-rest-client-sniffer:${elasticsearchVersion}"
         api "org.elasticsearch:elasticsearch:${elasticsearchVersion}"
-
         // flink
         api "org.apache.flink:flink-clients:${flinkVersion}"
         api "org.apache.flink:flink-java:${flinkVersion}"
         api "org.apache.flink:flink-streaming-java:${flinkVersion}"
-
+        // log
+        api "org.slf4j:slf4j-log4j12:${slf4jVersion}"
         // huawei
         api "com.huaweicloud.dis:huaweicloud-sdk-java-dis:${huaweiDisJavaSdk}"
-
-        // jdbc
-        api "org.postgresql:postgresql:${postgresqlJdbcVersion}"
-
-        // utils
-        api "com.google.guava:guava:${guavaVersion}"
-        api "org.apache.commons:commons-lang3:${apacheCommonVersion}"
+        // jackson
         api "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+        api "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+        api "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+        api "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDatatypeVersion}"
+
+        // yaml
+        api "org.yaml:snakeyaml:${snakeyamlVersion}"
+        // typesafe
+        api "com.typesafe:config:${typesafeVersion}"
+
+        // logs
+        api "org.slf4j:slf4j-api:${slf4jVersion}"
+        // google utils
+        api "com.google.guava:guava:${guavaVersion}"
+        // apache utils
+        api "org.apache.commons:commons-lang3:${apacheCommonVersion}"
+        // the other third utils
         api "io.vavr:vavr:${vavrVersion}"
         api "org.projectlombok:lombok:${lombokVersion}"
-        api "org.slf4j:slf4j-api:${slf4jVersion}"
 
         // test
         api "org.jetbrains.kotlin:kotlin-test-junit:${kotlinTestVersion}"
