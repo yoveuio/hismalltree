@@ -16,14 +16,14 @@ import com.muxu.demo.huawei.config.DisConfig
 import com.muxu.demo.huawei.config.StreamChannelEnum
 
 @Slf4j
-class Consumer(streamChannelEnum: StreamChannelEnum) {
+class Consumer(streamChannelEnum: StreamChannelEnum, private val appName: String = "muxu") {
 
     private val dic: DIS
     private val streamName: String
 
     init {
         val disConfig = DisConfig.instance
-        dic = DISClientBuilder.standard()
+        this.dic = DISClientBuilder.standard()
             .withEndpoint(disConfig.endpoint)
             .withRegion(disConfig.region)
             .withAk(disConfig.ak)
@@ -32,7 +32,7 @@ class Consumer(streamChannelEnum: StreamChannelEnum) {
             .withDefaultClientCertAuthEnabled(true)
             .build()
 
-        streamName = disConfig.streamChannel?.get(streamChannelEnum) ?: throw BaseException("")
+        this.streamName = disConfig.streamChannel?.get(streamChannelEnum) ?: throw BaseException("")
     }
 
     fun execute(
@@ -43,19 +43,20 @@ class Consumer(streamChannelEnum: StreamChannelEnum) {
         try {
             // 获取数据游标
             val request = GetPartitionCursorRequest()
-            request.streamName = streamName
+            request.streamName = this.streamName
             request.partitionId = partitionId
             request.cursorType = cursorType.name
             request.startingSequenceNumber = startingSequenceNumber
-            val response: GetPartitionCursorResult = dic.getPartitionCursor(request)
+            val response: GetPartitionCursorResult = this.dic.getPartitionCursor(request)
             var cursor = response.partitionCursor
-            log.info("Get stream {}[partitionId={}] cursor success : {}", streamName, partitionId, cursor)
+            log.info("Get stream {}[partitionId={}] cursor success : {}", this.streamName, partitionId, cursor)
 
             val recordsRequest = GetRecordsRequest()
             var recordResponse: GetRecordsResult?
             while (true) {
                 recordsRequest.partitionCursor = cursor
-                recordResponse = dic.getRecords(recordsRequest)
+                recordsRequest.appName = this.appName
+                recordResponse = this.dic.getRecords(recordsRequest)
                 // 下一批数据游标
                 cursor = recordResponse.nextPartitionCursor
                 for (record in recordResponse.records) {
@@ -80,6 +81,14 @@ class Consumer(streamChannelEnum: StreamChannelEnum) {
             record.partitionKey,
             record.sequenceNumber
         )
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            Consumer(StreamChannelEnum.DEFAULT).execute()
+        }
     }
 
 }

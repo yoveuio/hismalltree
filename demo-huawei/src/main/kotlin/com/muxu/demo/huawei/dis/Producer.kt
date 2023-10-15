@@ -13,7 +13,8 @@ import com.muxu.core.exception.BaseException
 import com.muxu.demo.huawei.config.DisConfig
 import com.muxu.demo.huawei.config.StreamChannelEnum
 import com.muxu.demo.huawei.dis.message.DISMessage
-import com.muxu.demo.huawei.dis.message.StringMassage
+import com.muxu.demo.huawei.dis.message.JsonMessage
+import java.util.stream.IntStream
 
 @Slf4j
 class Producer(streamChannelEnum: StreamChannelEnum) {
@@ -23,7 +24,7 @@ class Producer(streamChannelEnum: StreamChannelEnum) {
 
     init {
         val disConfig = DisConfig.instance
-        dic = DISClientBuilder.standard()
+        this.dic = DISClientBuilder.standard()
             .withEndpoint(disConfig.endpoint)
             .withRegion(disConfig.region)
             .withAk(disConfig.ak)
@@ -31,7 +32,7 @@ class Producer(streamChannelEnum: StreamChannelEnum) {
             .withProjectId(disConfig.projectId)
             .withDefaultClientCertAuthEnabled(true)
             .build()
-        streamName = disConfig.streamChannel?.get(streamChannelEnum) ?: throw BaseException("")
+        this.streamName = disConfig.streamChannel?.get(streamChannelEnum) ?: throw BaseException("")
     }
 
     fun produce(message: DISMessage) {
@@ -40,7 +41,7 @@ class Producer(streamChannelEnum: StreamChannelEnum) {
 
     fun produce(message: List<DISMessage>) {
         val putRecordsRequest = PutRecordsRequest()
-        putRecordsRequest.streamName = streamName
+        putRecordsRequest.streamName = this.streamName
         val putRecordsRequestEntryList: MutableList<PutRecordsRequestEntry> = ArrayList()
         message.forEach {
             val putRecordsRequestEntry = PutRecordsRequestEntry()
@@ -51,7 +52,7 @@ class Producer(streamChannelEnum: StreamChannelEnum) {
         putRecordsRequest.records = putRecordsRequestEntryList
         var putRecordsResult: PutRecordsResult? = null
         try {
-            putRecordsResult = dic.putRecords(putRecordsRequest)
+            putRecordsResult = this.dic.putRecords(putRecordsRequest)
         } catch (e: DISClientException) {
             log.error(
                 "Failed to get a normal response, please check params and retry. Error message [{}]",
@@ -99,7 +100,13 @@ class Producer(streamChannelEnum: StreamChannelEnum) {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Producer(StreamChannelEnum.DEFAULT).produce(StringMassage("hello world"))
+            Producer(StreamChannelEnum.DEFAULT).produce(IntStream.range(1, 100).mapToObj { JsonMessage(
+                """
+                    {
+                        "hello1": "world"
+                    }
+                """.trimIndent()
+            ) }.toList())
         }
     }
 
