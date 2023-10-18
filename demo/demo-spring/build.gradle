@@ -1,0 +1,8 @@
+dependencies {
+    implementation project(":muxu-core")
+
+    implementation('org.springframework.boot:spring-boot-starter') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

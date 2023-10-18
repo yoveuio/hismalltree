@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(":muxu-core")
+
+    implementation 'com.huaweicloud.dis:huaweicloud-sdk-java-dis'
+}

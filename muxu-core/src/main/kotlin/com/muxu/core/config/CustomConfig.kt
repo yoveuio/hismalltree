@@ -17,7 +17,7 @@ class CustomConfig {
 
     companion object {
 
-        private var config: Config
+        var config: Config
 
         init {
             val configPath = System.getenv().getOrDefault(APP_PATH_ENV, DEFAULT_APP_PATH)

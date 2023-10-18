@@ -1,6 +1,0 @@
-dependencies {
-    implementation project(":muxu-core")
-
-    implementation 'org.jetbrains.kotlin:kotlin-reflect'
-    implementation 'com.huaweicloud.dis:huaweicloud-sdk-java-dis'
-}

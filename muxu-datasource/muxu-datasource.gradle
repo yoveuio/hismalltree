@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(":muxu-core")
+
+    testApi 'org.jetbrains.kotlin:kotlin-test-junit'
+    testApi 'org.postgresql:postgresql'
+    testApi 'com.microsoft.sqlserver:mssql-jdbc'
+}
