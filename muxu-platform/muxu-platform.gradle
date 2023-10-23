@@ -10,7 +10,7 @@ ext {
     // lib version
     scalaVersion = '2.12.17'
     springbootVersion = '3.0.6'
-    elasticsearchVersion = '7.10.2'
+    elasticsearchVersion = '8.10.4'
     flinkVersion = '1.17.0'
     postgresqlJdbcVersion = "42.6.0"
     sqlserverJdbcVersion = "7.2.2.jre8"
@@ -54,10 +54,11 @@ dependencies {
         // sqlserver
         api "com.microsoft.sqlserver:mssql-jdbc:${sqlserverJdbcVersion}"
         // elasticsearch
-        api "org.elasticsearch.client:elasticsearch-rest-high-level-client:${elasticsearchVersion}"
-        api "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearchVersion}"
-        api "org.elasticsearch.client:elasticsearch-rest-client-sniffer:${elasticsearchVersion}"
-        api "org.elasticsearch:elasticsearch:${elasticsearchVersion}"
+        api "co.elastic.clients:elasticsearch-java:${elasticsearchVersion}"
+//        api "org.elasticsearch.client:elasticsearch-rest-high-level-client:${elasticsearchVersion}"
+//        api "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearchVersion}"
+//        api "org.elasticsearch.client:elasticsearch-rest-client-sniffer:${elasticsearchVersion}"
+//        api "org.elasticsearch:elasticsearch:${elasticsearchVersion}"
         // flink
         api "org.apache.flink:flink-clients:${flinkVersion}"
         api "org.apache.flink:flink-java:${flinkVersion}"

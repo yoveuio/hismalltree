@@ -17,6 +17,7 @@ dependencies {
     api 'org.slf4j:slf4j-api'
 
     // test
-    testApi 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
 }
 
