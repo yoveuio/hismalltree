@@ -11,7 +11,7 @@ import org.apache.flink.streaming.api.windowing.assigners.EventTimeSessionWindow
 import org.apache.flink.streaming.api.windowing.time.Time
 
 @Suppress("unused")
-object HelloFlink {
+object Watermarks {
 
     fun watermarksUdfSourceFunction() {
         val input = listOf(Tuple3("a", 1L, 1), Tuple3("b", 1L, 1), Tuple3("c", 3L, 1))
