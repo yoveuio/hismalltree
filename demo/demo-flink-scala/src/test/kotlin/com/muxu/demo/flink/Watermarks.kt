@@ -9,10 +9,12 @@ import org.apache.flink.streaming.api.functions.source.SourceFunction
 import org.apache.flink.streaming.api.watermark.Watermark
 import org.apache.flink.streaming.api.windowing.assigners.EventTimeSessionWindows
 import org.apache.flink.streaming.api.windowing.time.Time
+import org.junit.Test
 
 @Suppress("unused")
-object Watermarks {
+class Watermarks {
 
+    @Test
     fun watermarksUdfSourceFunction() {
         val input = listOf(Tuple3("a", 1L, 1), Tuple3("b", 1L, 1), Tuple3("c", 3L, 1))
 
@@ -60,11 +62,6 @@ object Watermarks {
             .sum(2)
             .print()
         env.execute()
-    }
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        watermarksTimestampAssigner()
     }
 
 }

@@ -1,6 +1,0 @@
-dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-reflect'
-    implementation 'org.apache.flink:flink-clients'
-    implementation 'org.apache.flink:flink-java'
-    implementation 'org.apache.flink:flink-streaming-java'
-}

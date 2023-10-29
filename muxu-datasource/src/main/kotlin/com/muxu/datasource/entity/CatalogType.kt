@@ -1,4 +1,4 @@
-package com.muxu.core.entity
+package com.muxu.datasource.entity
 
 import org.apache.commons.lang3.StringUtils
 

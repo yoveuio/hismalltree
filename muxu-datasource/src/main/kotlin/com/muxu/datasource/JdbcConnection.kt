@@ -1,8 +1,8 @@
 package com.muxu.datasource
 
 import com.google.common.collect.Lists
-import com.muxu.core.entity.CatalogTreeDTO
-import com.muxu.core.entity.CatalogType
+import com.muxu.datasource.entity.CatalogTreeDTO
+import com.muxu.datasource.entity.CatalogType
 import com.muxu.core.exception.BaseException
 import org.apache.commons.lang3.StringUtils
 import java.sql.*
