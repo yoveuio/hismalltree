@@ -1,6 +1,6 @@
 package com.muxu.demo.huawei.config
 
-import com.muxu.core.config.CustomConfig
+import com.hismalltree.core.config.CustomConfig
 import com.muxu.demo.huawei.constant.HuaweiEnvConstant.Companion.DIS_CONFIG_PATH
 import com.typesafe.config.Config
 

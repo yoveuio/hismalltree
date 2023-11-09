@@ -7,9 +7,9 @@ import com.huaweicloud.dis.exception.DISClientException
 import com.huaweicloud.dis.iface.data.request.PutRecordsRequest
 import com.huaweicloud.dis.iface.data.request.PutRecordsRequestEntry
 import com.huaweicloud.dis.iface.data.response.PutRecordsResult
-import com.muxu.core.annotation.Slf4j
-import com.muxu.core.annotation.Slf4j.Companion.log
-import com.muxu.core.exception.BaseException
+import com.hismalltree.core.annotation.Slf4j
+import com.hismalltree.core.annotation.Slf4j.Companion.log
+import com.hismalltree.core.exception.BaseException
 import com.muxu.demo.huawei.config.DisConfig
 import com.muxu.demo.huawei.config.StreamChannelEnum
 import com.muxu.demo.huawei.dis.message.DISMessage

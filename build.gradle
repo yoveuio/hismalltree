@@ -24,7 +24,7 @@ allprojects {
         }
     }
 
-    group = 'com.muxu'
+    group = 'com.hismalltree'
     version = '0.0.1-SNAPSHOT'
 
 }
@@ -32,10 +32,19 @@ allprojects {
 configure([rootProject] + javaProjects) {
     apply plugin: 'io.spring.dependency-management'
 
-    if (project.name.startsWith('demo') || project.name.startsWith('muxu')) {
+    if (project.name.startsWith('demo-') || project.name.startsWith('muxu')) {
         apply plugin: "kotlin"
         apply plugin: 'org.jetbrains.kotlin.jvm'
         apply plugin: 'org.jetbrains.kotlin.plugin.spring'
+
+        [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+        [compileJava, compileTestJava]*.sourceCompatibility = JavaVersion.VERSION_21
+        [compileJava, compileTestJava]*.targetCompatibility = JavaVersion.VERSION_21
+
+
+        [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+        [compileJava, compileTestJava]*.sourceCompatibility = JavaVersion.VERSION_17
+        [compileJava, compileTestJava]*.targetCompatibility = JavaVersion.VERSION_17
 
         tasks.register('prepareKotlinBuildScriptModel') {
 

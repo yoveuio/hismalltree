@@ -7,8 +7,8 @@ import co.elastic.clients.elasticsearch.core.IndexRequest
 import co.elastic.clients.json.JsonData
 import co.elastic.clients.json.jackson.JacksonJsonpMapper
 import co.elastic.clients.transport.rest_client.RestClientTransport
-import com.muxu.core.annotation.Slf4j
-import com.muxu.core.annotation.Slf4j.Companion.log
+import com.hismalltree.core.annotation.Slf4j
+import com.hismalltree.core.annotation.Slf4j.Companion.log
 import org.apache.http.HttpHeaders
 import org.apache.http.HttpHost
 import org.apache.http.HttpResponseInterceptor

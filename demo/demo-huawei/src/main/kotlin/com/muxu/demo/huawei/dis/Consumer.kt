@@ -9,9 +9,9 @@ import com.huaweicloud.dis.iface.data.response.GetPartitionCursorResult
 import com.huaweicloud.dis.iface.data.response.GetRecordsResult
 import com.huaweicloud.dis.iface.data.response.Record
 import com.huaweicloud.dis.util.PartitionCursorTypeEnum
-import com.muxu.core.annotation.Slf4j
-import com.muxu.core.annotation.Slf4j.Companion.log
-import com.muxu.core.exception.BaseException
+import com.hismalltree.core.annotation.Slf4j
+import com.hismalltree.core.annotation.Slf4j.Companion.log
+import com.hismalltree.core.exception.BaseException
 import com.muxu.demo.huawei.config.DisConfig
 import com.muxu.demo.huawei.config.StreamChannelEnum
 

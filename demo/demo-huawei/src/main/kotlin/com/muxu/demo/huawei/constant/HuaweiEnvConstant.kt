@@ -1,6 +1,6 @@
 package com.muxu.demo.huawei.constant
 
-import com.muxu.core.constants.EnvConstants
+import com.hismalltree.core.constants.EnvConstants
 
 open class HuaweiEnvConstant: EnvConstants() {
 

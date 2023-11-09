@@ -1,7 +1,7 @@
 package com.muxu.demo.spring.config
 
-import com.muxu.core.annotation.Slf4j
-import com.muxu.core.config.CustomConfig
+import com.hismalltree.core.annotation.Slf4j
+import com.hismalltree.core.config.CustomConfig
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigList
 import com.typesafe.config.ConfigObject
