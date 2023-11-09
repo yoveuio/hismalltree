@@ -41,11 +41,6 @@ configure([rootProject] + javaProjects) {
         [compileJava, compileTestJava]*.sourceCompatibility = JavaVersion.VERSION_21
         [compileJava, compileTestJava]*.targetCompatibility = JavaVersion.VERSION_21
 
-
-        [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-        [compileJava, compileTestJava]*.sourceCompatibility = JavaVersion.VERSION_17
-        [compileJava, compileTestJava]*.targetCompatibility = JavaVersion.VERSION_17
-
         tasks.register('prepareKotlinBuildScriptModel') {
 
         }
