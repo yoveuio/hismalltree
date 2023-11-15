@@ -1,8 +1,22 @@
+
 dependencies {
     implementation project(":muxu-core")
 
+    implementation 'org.mapstruct:mapstruct'
     implementation('org.springframework.boot:spring-boot-starter') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
+
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    implementation 'org.projectlombok:lombok-mapstruct-binding'
+
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor  "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
 }
