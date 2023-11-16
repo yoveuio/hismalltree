@@ -71,7 +71,7 @@ configure([rootProject] + javaProjects) {
                     srcDirs = ['src/test/scala', 'src/test/kotlin', 'src/test/java']
                 }
                 kotlin {
-                    srcDirs = ['src/test/kotlin']
+                    srcDirs = []
                 }
                 java {
                     srcDirs = []
@@ -79,9 +79,6 @@ configure([rootProject] + javaProjects) {
             }
         }
 
-        tasks.register("createDirs") {
-            sourceSets*.scala.srcDirs*.each { it.mkdirs() }
-        }
     }
 
     configurations {
