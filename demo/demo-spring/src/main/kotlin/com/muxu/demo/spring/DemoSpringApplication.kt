@@ -1,11 +1,11 @@
 package com.muxu.demo.spring
 
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class DemoSpringApplication
 
 fun main(args: Array<String>) {
-    runApplication<DemoSpringApplication>(*args)
+    SpringApplication.run(DemoSpringApplication::class.java, *args)
 }

@@ -58,8 +58,8 @@ public class CdcEngine implements Closeable {
         props.setProperty(RelationalDatabaseConnectorConfig.PORT.name(), "3306");
         props.setProperty(RelationalDatabaseConnectorConfig.USER.name(), "root");
         props.setProperty(RelationalDatabaseConnectorConfig.PASSWORD.name(), "debezium");
-        props.setProperty(MySqlConnectorConfig.SERVER_ID.name(), "12312");
         props.setProperty(RelationalDatabaseConnectorConfig.INCLUDE_SCHEMA_CHANGES.name(), "true");
+        props.setProperty(MySqlConnectorConfig.SERVER_ID.name(), "12312");
         props.setProperty(CommonConnectorConfig.TOPIC_PREFIX.name(), "a");
         props.setProperty(HistorizedRelationalDatabaseConnectorConfig.SCHEMA_HISTORY.name(), FileSchemaHistory.class.getName());
         props.setProperty(FileSchemaHistory.FILE_PATH.name(), FileSchemaHistory.class.getName());

@@ -19,7 +19,7 @@ class CustomPropertySourceLoader: PropertySourceLoader {
 
     override fun load(name: String?, resource: Resource?): MutableList<PropertySource<*>> {
         val propertySources: MutableList<PropertySource<*>> = ArrayList()
-        val config = CustomConfig.config;
+        val config = CustomConfig.config
         val properties = LinkedHashMap<String, Any>()
         toFlatMap(properties, config)
         propertySources.add(MapPropertySource(name!!, properties))
