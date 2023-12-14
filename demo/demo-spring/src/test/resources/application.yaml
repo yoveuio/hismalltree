@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:hismalltree
-    username: sa
-    password: sa
+    url: jdbc:h2:mem:testdb;MODE=MySQL
+    username: hismalltree
+    password: password
 
 
   sql:
@@ -14,5 +14,9 @@ spring:
 
   h2:
     console:
+      settings:
+        trace: true
+        web-allow-others: true
       enabled: true
+      path: /h2-console
 

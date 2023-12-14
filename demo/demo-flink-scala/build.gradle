@@ -7,6 +7,7 @@ dependencies {
     implementation 'org.apache.flink:flink-clients'
     implementation 'org.apache.flink:flink-java'
     implementation 'org.apache.flink:flink-streaming-java'
+    implementation 'com.ververica:flink-connector-mysql-cdc'
     
     // test
     testImplementation 'org.mockito:mockito-core'

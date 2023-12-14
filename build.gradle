@@ -88,6 +88,9 @@ configure([rootProject] + javaProjects) {
             visible = false
         }
         matching { it.name.endsWith("Classpath") }.configureEach { it.extendsFrom(dependencyManagement) }
+        configureEach {
+            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        }
     }
 
     dependencies {

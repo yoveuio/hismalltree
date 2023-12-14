@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.junit.Test;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -28,6 +29,13 @@ public class EntityConverterTest {
 
         EntityB toB(final EntityA a);
 
+        @Mapping(target = "a", source = "a.a")
+        @Mapping(target = "b", source = "b.a")
+        EntityC toC(EntityA a, EntityB b);
+
+        @Mapping(target = "c", expression = "java(toC(a, b))")
+        EntityD toD(EntityA a, EntityB b);
+
     }
 
     @Data
@@ -47,7 +55,23 @@ public class EntityConverterTest {
 
         public Integer a;
 
-        public Integer b;
+        public Double b;
+
+    }
+
+    @Data
+    public static class EntityC {
+
+        public Integer a;
+
+        public Double b;
+
+    }
+
+    @Data
+    public static class EntityD {
+
+        public EntityC c;
 
     }
 
