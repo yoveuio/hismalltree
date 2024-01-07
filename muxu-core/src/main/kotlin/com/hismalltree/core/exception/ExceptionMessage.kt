@@ -1,7 +1,9 @@
 package com.hismalltree.core.exception
 
-interface ExceptionMessage {
+enum class ExceptionMessage(
+    val code: Int
+) {
 
-    fun name(): String
+    UNKNOWN_EXCEPTION(100)
 
 }
