@@ -9,6 +9,7 @@ dependencies {
     implementation 'org.apache.flink:flink-streaming-java'
     implementation 'com.twitter:chill-java'
     implementation 'com.ververica:flink-connector-mysql-cdc'
+    implementation 'com.esotericsoftware:kryo'
 
     // test
     testImplementation 'org.mockito:mockito-core'

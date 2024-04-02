@@ -39,6 +39,8 @@ dependencies {
         api group: 'org.apache.flink', name: 'flink-java', version: flinkVersion
         api group: 'org.apache.flink', name: 'flink-streaming-java', version: flinkVersion
         api group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonVersion
+        // kryo
+        api group: 'com.esotericsoftware', name: 'kryo', version: kryoVersion
         // flink cdc
         api group: 'com.ververica', name: 'flink-connector-mysql-cdc', version: flinkCdcVersion
         api group: 'com.ververica', name: 'flink-connector-doris-cdc', version: flinkCdcVersion
