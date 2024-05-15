@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(":muxu-connectors:muxu-connector-base")
+
+}
