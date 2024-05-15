@@ -4,4 +4,5 @@ dependencies {
     testApi 'org.jetbrains.kotlin:kotlin-test-junit'
     testApi 'org.postgresql:postgresql'
     testApi 'com.microsoft.sqlserver:mssql-jdbc'
+    testApi 'org.mongodb:mongodb-driver-sync'
 }

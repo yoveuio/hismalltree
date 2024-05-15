@@ -11,6 +11,7 @@ def init_network():
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
+
 def identity_function(x):
     return x
 
@@ -26,6 +27,7 @@ def forward(network, x):
     a3 = np.dot(z2, W3) + b3
     y = identity_function(a3)
     return y
+
 
 if __name__ == '__main__':
     network = init_network()

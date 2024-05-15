@@ -27,17 +27,25 @@ dependencies {
 
         // database
         api group: 'com.h2database', name: 'h2', version: h2databaseVersion
-        // postgresql
         api group: 'org.postgresql', name: 'postgresql', version: postgresqlJdbcVersion
-        // sqlserver
         api group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: sqlserverJdbcVersion
-        // elasticsearch
         api group: 'co.elastic.clients', name: 'elasticsearch-java', version: elasticsearchVersion
         api group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client-sniffer', version: elasticsearchVersion
-        // apache
+        api group: 'org.mongodb', name: 'mongodb-driver-sync', version: mongodbVersion
+
+        // apache flink
         api group: 'org.apache.flink', name: 'flink-clients', version: flinkVersion
         api group: 'org.apache.flink', name: 'flink-java', version: flinkVersion
         api group: 'org.apache.flink', name: 'flink-streaming-java', version: flinkVersion
+        api group: 'org.apache.flink', name: 'flink-connector-base', version: flinkVersion
+
+        api group: 'org.apache.rocketmq', name: 'rocketmq-client', version: rocketMqVersion
+        api group: 'org.apache.rocketmq', name: 'rocketmq-acl', version: rocketMqVersion
+        api group: 'org.apache.rocketmq', name: 'rocketmq-common', version: rocketMqVersion
+
+        // netty
+        api group: "io.netty", name: 'netty-all', version: nettyVersion
+
         api group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonVersion
         // kryo
         api group: 'com.esotericsoftware', name: 'kryo', version: kryoVersion

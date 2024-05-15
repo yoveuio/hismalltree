@@ -1,0 +1,8 @@
+dependencies {
+    api project(":muxu-core")
+
+    api 'org.apache.flink:flink-clients'
+    api 'org.apache.flink:flink-java'
+    api 'org.apache.flink:flink-streaming-java'
+    api 'org.apache.flink:flink-connector-base'
+}

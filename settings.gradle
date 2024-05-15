@@ -10,7 +10,20 @@ include 'demo:demo-flink'
 include 'demo:demo-spring'
 include 'demo:demo-huawei'
 include 'demo:demo-elasticsearch'
+include 'demo:demo-kafka'
+include 'muxu-streaming-etl'
+include 'muxu-connectors'
 
+include 'muxu-connectors:muxu-connector-rocketmq'
+include 'muxu-connectors:muxu-connector-base'
+include 'muxu-connectors:muxu-connector-debezium'
+
+findProject(':muxu-connectors:muxu-connector-debezium')?.name = 'muxu-connector-debezium'
+findProject(':muxu-connectors:muxu-connector-base')?.name = 'muxu-connecto' +
+        'r.-base'
+findProject(':muxu-connectors:muxu-connector-rocketmq')?.name = 'muxu-connector-rocketmq'
+
+findProject(':demo:demo-kafka')?.name = 'demo-kafka'
 findProject(':demo:demo-debezium')?.name = 'demo-debezium'
 findProject(':demo:demo-flink')?.name = 'demo-flink'
 findProject(':demo:demo-spring')?.name = 'demo-spring'

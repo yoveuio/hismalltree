@@ -1,0 +1,16 @@
+version: '3'
+services:
+  db:
+    image: 'docker.io/mysql:latest'
+    restart: on-failure
+    container_name: mysql
+    environment:
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: '1234'
+      TZ: 'Asia/Shanghai'
+    ports:
+      -  3306:3306
+    volumes:
+      - /opt/docker/mysql/data:/var/lib/mysql
+      - /opt/docker/mysql/conf:/etc/mysql/conf.d
+      - /opt/docker/mysql/source:/docker-entrypoint-initdb.d
