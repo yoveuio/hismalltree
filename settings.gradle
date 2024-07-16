@@ -19,8 +19,7 @@ include 'muxu-connectors:muxu-connector-base'
 include 'muxu-connectors:muxu-connector-debezium'
 
 findProject(':muxu-connectors:muxu-connector-debezium')?.name = 'muxu-connector-debezium'
-findProject(':muxu-connectors:muxu-connector-base')?.name = 'muxu-connecto' +
-        'r.-base'
+findProject(':muxu-connectors:muxu-connector-base')?.name = 'muxu-connector-base'
 findProject(':muxu-connectors:muxu-connector-rocketmq')?.name = 'muxu-connector-rocketmq'
 
 findProject(':demo:demo-kafka')?.name = 'demo-kafka'
