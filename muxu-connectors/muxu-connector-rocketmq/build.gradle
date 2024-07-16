@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(":muxu-connectors:muxu-connector-base")
+
+    implementation 'org.apache.rocketmq:rocketmq-client'
+    implementation 'org.apache.rocketmq:rocketmq-acl'
+    implementation 'org.apache.rocketmq:rocketmq-common'
+}
