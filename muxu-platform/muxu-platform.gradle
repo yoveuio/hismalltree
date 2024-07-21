@@ -60,6 +60,10 @@ dependencies {
         api group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
         api group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: jacksonDatatypeVersion
 
+        // kafka
+        api group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
+        api group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
+
         // yaml
         api group: 'org.yaml', name: 'snakeyaml', version: snakeyamlVersion
         // typesafe
