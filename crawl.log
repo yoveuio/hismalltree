@@ -1783,3 +1783,48 @@ ERROR	2024-06-04 13:02:49,966	0	com.muxu.demo.io.echo.EchoServer$Companion	[main
 ERROR	2024-06-04 13:03:21,760	0	com.muxu.demo.io.echo.EchoServer$Companion	[main]	Usage: Companion <port>
 ERROR	2024-06-04 21:14:17,923	0	com.muxu.demo.io.echo.EchoClient$Companion	[main]	Usage: EchoClient <host> <port>
 INFO	2024-06-04 21:15:44,839	0	com.muxu.demo.io.echo.EchoClientHandler	[nioEventLoopGroup-2-1]	Client received: Netty rocks!
+INFO	2024-08-10 21:06:52,514	0	com.muxu.demo.spring.DemoSpringApplicationKt	[main]	Starting DemoSpringApplicationKt using Java 21.0.1 with PID 85084 (/Users/bytedance/IdeaProjects/hismalltree/demo/demo-spring/build/classes/kotlin/main started by bytedance in /Users/bytedance/IdeaProjects/hismalltree)
+INFO	2024-08-10 21:06:52,515	1	com.muxu.demo.spring.DemoSpringApplicationKt	[main]	No active profile set, falling back to 1 default profile: "default"
+WARN	2024-08-10 21:06:52,935	421	org.springframework.context.annotation.AnnotationConfigApplicationContext	[main]	Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'demoSpringApplication': Injection of resource dependencies failed
+INFO	2024-08-10 21:06:52,942	428	org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger	[main]	
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+ERROR	2024-08-10 21:06:52,951	437	org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter	[main]	
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+A component required a bean of type 'org.activiti.api.task.runtime.TaskRuntime' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.activiti.api.task.runtime.TaskRuntime' in your configuration.
+
+INFO	2024-08-10 21:12:28,419	0	com.muxu.demo.spring.DemoSpringApplicationKt	[main]	Starting DemoSpringApplicationKt using Java 21.0.1 with PID 85378 (/Users/bytedance/IdeaProjects/hismalltree/demo/demo-spring/build/classes/kotlin/main started by bytedance in /Users/bytedance/IdeaProjects/hismalltree)
+INFO	2024-08-10 21:12:28,420	1	com.muxu.demo.spring.DemoSpringApplicationKt	[main]	No active profile set, falling back to 1 default profile: "default"
+WARN	2024-08-10 21:12:28,839	420	org.springframework.context.annotation.AnnotationConfigApplicationContext	[main]	Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'demoSpringApplication': Unsatisfied dependency expressed through field 'taskRuntime': No qualifying bean of type 'org.activiti.api.task.runtime.TaskRuntime' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+INFO	2024-08-10 21:12:28,846	427	org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger	[main]	
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+ERROR	2024-08-10 21:12:28,856	437	org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter	[main]	
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field taskRuntime in com.muxu.demo.spring.DemoSpringApplication required a bean of type 'org.activiti.api.task.runtime.TaskRuntime' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'org.activiti.api.task.runtime.TaskRuntime' in your configuration.
+

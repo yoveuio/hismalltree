@@ -18,6 +18,9 @@ dependencies {
 
     runtimeOnly 'com.h2database:h2'
 
+    implementation 'org.flowable:flowable-engine'
+    implementation 'com.yomahub:liteflow-core:2.12.2.2'
+
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 

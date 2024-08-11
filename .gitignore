@@ -39,3 +39,5 @@ out/
 ### logs ###
 /tools/docker-compose/*/logs/
 /tools/docker-compose/*/store/
+
+/lsm-rust/target/

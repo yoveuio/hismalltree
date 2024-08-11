@@ -69,6 +69,8 @@ dependencies {
         api group: 'io.debezium', name: 'debezium-embedded', version: debeziumVersion
         api group: 'io.debezium', name: 'debezium-connector-mysql', version: debeziumVersion
 
+        api group: 'org.flowable', name: 'flowable-engine', version: flowableVersion
+
         // logs
         api group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
         api group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4jVersion
